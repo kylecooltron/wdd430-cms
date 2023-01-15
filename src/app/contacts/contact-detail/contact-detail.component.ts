@@ -8,10 +8,6 @@ import { test_contacts } from '../test_data';
   styleUrls: ['./contact-detail.component.css']
 })
 
-// let detail_list: {
-//   name: string;
-//   value: string;
-// };
 
 export class ContactDetailComponent {
 
