@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <div class="pull-left name-image-stack">
+            <h2 class="panel-title">{{ selected_contact.name }}</h2>
+            <img [src]="selected_contact.imageUrl" alt="{{ selected_contact.name }}" class="img-responsive"
+                style="max-height: 50px;">
+        </div>
+        <div class="pull-right btn-group">
+            <button class="button btn-primary">Edit</button>
+            <button class="button btn-danger">Delete</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row" *ngFor="let detail of get_detail_list(selected_contact)">
+            <div class="col-xs-12">
+                <b>{{ detail.name }}: </b><span>{{ detail.value }}</span>
+            </div>
+        </div>
+    </div>
+</div>
