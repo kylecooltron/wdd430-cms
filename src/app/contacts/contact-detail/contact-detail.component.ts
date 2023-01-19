@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Contact } from '../contact.model'
-import { test_contacts } from '../test_data';
 
 @Component({
   selector: 'cms-contact-detail',
@@ -10,8 +9,7 @@ import { test_contacts } from '../test_data';
 
 
 export class ContactDetailComponent {
-
-  selected_contact: Contact = test_contacts[0];
+  @Input() contact: Contact;
 
   get_detail_list(contact: Contact) {
     /**
@@ -24,7 +22,6 @@ export class ContactDetailComponent {
     detail_list.push(
       { name: "Phone", value: contact.phone }
     )
-    console.log(detail_list);
     return detail_list;
   }
 
