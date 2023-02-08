@@ -1,12 +1,12 @@
-<div class="panel panel-default">
+<div *ngIf="contact" class="panel panel-default">
     <div class="panel-heading clearfix">
         <div class="pull-left name-image-stack">
             <h2 class="panel-title">{{ contact.name }}</h2>
             <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive" style="max-height: 50px;">
         </div>
-        <div class="pull-right btn-group">
-            <button class="button btn-primary">Edit</button>
-            <button class="button btn-danger">Delete</button>
+        <div class="pull-right btn-group btn-horizontal-padding">
+            <a [routerLink]="['../', contact.id, 'edit']" class="btn btn-primary">Edit</a>
+            <a (click)="onDelete()" class="btn btn-danger">Delete</a>
         </div>
     </div>
     <div class="panel-body">

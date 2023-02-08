@@ -71,4 +71,88 @@ this.selectedContactEvent.emit(contact);
 REMEMBER to not list providers in children components if you want to share the service with them
   providers: [ContactService]
 
+
+injecting service into service 
+need to attach @Injectable from angularcore so that
+we can inject to receiving service
+consider adding it for future compatability
+
+
+
+routing to change url routes
+Angular Router
+
+ @angular/router
+const appRoutes: Routes = [
+	{ path: '', component: HomeComponent },
+	{ path: 'users', component: UsersComponent },
+	{ path: 'servers', component: UsersComponent },
+]
+
+need to add RouterModule to imports array
+RouterModule.forRoot(appRoutes)
+
+directive:
+<router-outlet></router-outlet>
+
+
+GET LINKS TO WORK
+special directive not href
+
+routerLink="/"
+routerLink="/users"
+[routerLink]="['/users', 'something']"
+
+dynamically set active class
+routerLinkActive="active"
+for the first one
+[routerLinkActiveOptions]="{exact: true}"
+
+
+LOAD ROUTE PROGRAMATICALLY
+
+inject router
+constructor(private router: Router){}
+
+this.router.navigate(['/servers']);
+
+
+RELATIVE ROUTES
+
+constructor(
+private router: Router,
+private route: ActivatedRoute
+){}
+
+this.router.navigate(['/servers'], {relativeTo: this.route});
+
+
+routes for parameters with colon /:id
+
+
+--skip-tests
+
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
+ngIf to document selection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
