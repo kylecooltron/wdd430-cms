@@ -1,4 +1,5 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Document } from './document.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
@@ -7,12 +8,13 @@ import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
   providedIn: 'root'
 })
 export class DocumentsService {
-  documentSelectedEvent = new EventEmitter<Document>();
-  documentChangedEvent = new EventEmitter<Document[]>();
+  documentListChangedEvent = new Subject<Document[]>();
   documents: Document[] = [];
+  private maxDocumentId: number;
 
   constructor() {
     this.documents = MOCKDOCUMENTS;
+    this.maxDocumentId = this.getMaxId(this.documents);
   }
 
   getDocuments(): Document[] {
@@ -39,7 +41,36 @@ export class DocumentsService {
       return;
     }
     this.documents.splice(pos, 1);
-    this.documentChangedEvent.emit(this.documents.slice());
+    this.documentListChangedEvent.next(this.documents.slice());
+  }
+
+
+  getMaxId(documentList: Document[]): number {
+    return Math.max(...documentList.map(o => +o.id));
+  }
+
+  addDocument(newDocument: Document) {
+    if (newDocument == null) {
+      return;
+    }
+    this.maxDocumentId++;
+    newDocument.id = this.maxDocumentId.toString();
+    this.documents.push(newDocument);
+    this.documentListChangedEvent.next(this.documents.slice());
+  }
+
+  updateDocument(originalDocument: Document, newDocument: Document) {
+    if (originalDocument == null || newDocument == null) {
+      return;
+    }
+    let pos = this.documents.indexOf(originalDocument);
+    if (pos < 0) {
+      return;
+    }
+
+    newDocument.id = originalDocument.id;
+    this.documents[pos] = newDocument;
+    this.documentListChangedEvent.next(this.documents.slice());
   }
 
 }

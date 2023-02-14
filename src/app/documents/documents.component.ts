@@ -1,24 +1,18 @@
 import { Component } from '@angular/core';
 import { Document } from './document.model';
-import { DocumentsService } from './documents.service';
+// import { DocumentsService } from './documents.service';
 
 @Component({
   selector: 'cms-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.css'],
-  providers: [DocumentsService]
+  providers: []
 })
 export class DocumentsComponent {
   selectedDocument: Document;
 
-  constructor(private documentService: DocumentsService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.documentService.documentSelectedEvent
-      .subscribe(
-        (document: Document) => {
-          this.selectedDocument = document;
-        }
-      );
   }
 }
