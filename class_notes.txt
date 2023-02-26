@@ -209,8 +209,38 @@ unsubscribe from them
 on OnDestroy
 
 
+FORMS
 
 
-
+approaches template driven, reactive
 
   
+If the library of ng2-dnd is not able to install, please try the following command:
+npm install --skipLibCheck --save ng2-dnd@5.0.2 --force
+npm install --skipLibCheck --save ng2-dnd@5.0.2 --force
+npm install --skipLibCheck --save ng2-dnd@5.0.2 --force
+
+Import forms module
+
+Add it to imports array
+In the app module
+Ngmodel in the input tags
+Name attribute
+(NgSubmit) in the form element = "onsubmit(f)"
+#f="ngForm"
+
+OnSubmit(form: ngForm){
+
+@viewchild type ngForm
+
+Acquired  Email attribute
+
+[Disabled]="!f.valid"
+
+Input ng-invalid.ng-touched{
+
+}
+
+#Email="ngModel"
+
+

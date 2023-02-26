@@ -59,7 +59,7 @@ export class DocumentsService {
     this.documentListChangedEvent.next(this.documents.slice());
   }
 
-  updateDocument(originalDocument: Document, newDocument: Document) {
+  updateDocument(originalDocument: Document | undefined, newDocument: Document | undefined) {
     if (originalDocument == null || newDocument == null) {
       return;
     }
