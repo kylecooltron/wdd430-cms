@@ -7,6 +7,7 @@
   </div>
   <div class="panel-body">
     <div class="center-panel">
+      <h2 *ngIf="loading">Loading...</h2>
       <cms-document-item *ngFor="let document of documents" [document]="document"></cms-document-item>
     </div>
   </div>

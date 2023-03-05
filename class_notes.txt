@@ -244,3 +244,282 @@ Input ng-invalid.ng-touched{
 #Email="ngModel"
 
 
+PIPES
+
+transform Output on render in the template
+| uppercase
+| date:'fullDate':'somethingElse'
+
+combine PIPES / chain pipes
+
+angular.io
+/docs/ts/latest/api/
+
+new file "shorten.pipe.ts" 
+
+import PipeTransform from angular core
+pipe decorator
+@Pipe({
+	name: 'shorten'
+})
+export class ShortenPipe implements PipeTransform{
+	transform(value: any, limit: number){
+		return value.substr(0, limit);
+	}
+}
+app module add ShortenPipe to declarations and import
+
+| shorten:5
+
+<input text='text' [(ngModel)]="filteredStatus">
+
+filteredStatus: string='';
+
+ng g pipe filterPipe
+
+//filteer transform
+if (value.length === 0 || filterString == ""){
+	return value;
+}
+const resultArray = [];
+for (const iteem of value){
+	if (item[propName] === filterString){
+		resultArray.push(item);
+	}
+}
+return resultArray;
+
+let server of servers | filters:filterStatus:'status'
+
+reruns performance cost reloads any time the data changes
+@Pipe({
+	name:'myname',
+	pure: false,
+})
+
+ASYNC pipe
+
+appStatus = new Promise((resolve, reject) => {
+	setTimeout(() => {
+		resolve('stable');
+	}, 2000);
+});
+
+| async
+
+
+HTTP REQUESTS
+
+connect to server API Http REQUESTS
+File Upload
+Ananlytics
+
+Anatomy:
+URL (API Endpoint) /posts/1
+Http Verb POST, GET, PUT,
+Headers (Metadata) {
+	"Content-type":
+}
+Body {
+	title: "New Post"
+}
+
+
+https://cms-wdd-430-default-rtdb.firebaseio.com/
+
+
+app module add HttpClientModule from @angular/common/http
+add to imports array
+
+constructor( private http: HttpClient) {}
+
+this.http.post(
+	'https://cms-wdd-430-default-rtdb.firebaseio.com/documents.json',
+	postData
+	).subscribe(responseDate => {
+		console.log(responseData);
+	});
+	Angular will automatically transform into json
+
+	won't send the request if nobody is interested in the response SUBscribe
+
+Sends two requests, options to see if it's allowed, and then normal http request
+
+
+export interface Post {
+	title: string;
+	content: string;
+	id?: string;
+}
+
+private fetchPosts() {
+	this.http.get<{[key: string]: Post}>(https://cms-wdd-430-default-rtdb.firebaseio.com/documents.json).pipe(
+		map(responseData => {  ///{[key: string]: Post}
+			const postArray: Post[] = [];
+			for (const key in responseData) {
+				if (responseData.hasOwnProperty(key)){
+					postArray.push({...responseData[key], id: key})
+				}
+			}
+			return postsArray;
+		})
+	).subscribe(posts => {
+		console.log(post);
+	})
+}
+
+import map from rsjx operators
+
+OBSERVABLE OPERATORS
+angle brackets to add type definition to .get .post generic http methods response types
+
+LOADING
+
+isFetching = false;
+set true then set false when done
+
+
+SERVICES DO THE HEAVY LIFTING
+
+Components are learn
+
+posts.service.ts
+@Injectable({providedIn: 'root'})
+export class PostsService {
+	constructor(private http: HttpClient){}
+	createAndStorePost(title: string, ccontent: string){
+	}
+}
+
+RETURNIG DATA FROM SERVICES
+can subscribe
+return the http request and subscribe to it in the component
+
+this.http.delete('url');
+
+postService.deletePosts.subscribe(() = list = []);
+
+ERROR HANDLING
+
+pass another function to subscribe((), (error) => {
+	this.errorMessage = "An error occured" + error.message;
+})
+
+2nd way
+
+in service
+
+error = new Subject<string>;
+this.error.next(error.message);
+
+in component
+private errorSub: Subscription;
+this.errorSub = this.postService.error.subscribe(errMessage => {
+	this.error = errorMessage;
+})
+
+ngOnDestroy
+ngOnDestroy(){
+	this.error.unsubscribe();
+}
+
+catchError from rxjs operators
+throwError from rxjs
+
+catchError(errorRes => {
+	// send to analytics server
+	return throwError(errorRes);
+})
+
+SETTING HEADERS   
+QUERY PARAMS
+
+all of them have a last argument with object
+
+{
+	headers: new HttpHeaders({ //from angular common
+		'CustomHeader': 'Hello'
+	}),
+	params new HttpParams().set('print', 'pretty')
+}
+
+MULTIPLE PARAMS
+
+let searchParams = new HttpParams();
+searchParams = searchParams.append('print', 'pretty');
+searchParams = searchParams.append('print', 'pretty');
+
+OBSERVING DIFFERENT TYPES OF RESPONSES
+
+extra argument to post request
+{
+	observe: 'body',
+	observe: 'response'
+}
+
+even on delete
+{
+	observe: 'events'
+}
+
+.delete().pipe(
+	tap(event => {
+		console.log(event);
+		if(event.type == HttpEventType.Sent){
+			// tell the user the request was sent
+			console.log(event.body);
+		}
+	})
+)
+
+responseType: 'text' / 'blob' / 'json'
+
+MANIPuLATING REQUEST OBJECTS WITH OPERATORS
+INTERSETTERS
+custom header to all outgoing requests
+authentication
+
+auth-interceptor.service.ts
+
+export class AuthInterceptorSeervice implements HttpInterceptor {
+	intercept(req: HttpRequest<any>, next: HttpHandler) {
+		console.log('Request is on it's way');
+
+
+		//control in the interceptor
+		//modify request object, but it's immutable so you need to use clone
+		const modifiedRequest = req.clone({
+			url: '',
+			headers: req.headers.append('Auth', 'xyz');
+		})
+		return next.handle(modifiedRequest);
+
+
+		return next.handle(req); 
+
+		//can also modify response
+
+		return next.handle(modifiedRequest).pipe(tap(event => {
+			if(event.type === HttpEventType.Response){
+				console.log('Response arrived);
+			}
+		}))
+	}
+}
+
+app module in providers array
+{
+	provide: HTTP_INTERCEPTORS, // from common/http
+	useClass: AuthInterceptorSeervice,
+	multi: true,
+},
+{
+	provide: HTTP_INTERCEPTORS, // multiple interceptors
+	useClass: LoggingInterceptorService,
+	multi: true,
+}
+
+the order you provide them is the order they are executed in
+
+
+
