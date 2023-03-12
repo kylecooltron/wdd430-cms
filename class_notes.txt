@@ -523,3 +523,156 @@ the order you provide them is the order they are executed in
 
 
 
+MEAN
+Mongo Express Angular NodeJS
+
+ng serve makes nodejs server only dev server
+
+TWO 
+	Node App serves Angular SPA 
+	To Separated Servers served from Static host
+	* both logically Separated
+
+RESTful API
+	Representational State Transfer
+	Stateless backend
+	paths: /users /posts /products
+	GET POST DELETE PATCH PUT
+	json but not a must!  XML URLEncoded FormData
+
+
+
+PROJECT
+
+new folder next to src folder "backend"
+root folder new file server.js file
+node server.js
+
+const http = require('http');
+const app = require('./backend/app');
+
+const  = process.env.PORT || 3000;
+app.set('port', port)
+const server = http.createServer(app);
+
+server.listen(port);
+
+
+ADDING EXPRESS backend
+
+npm install --save express
+
+in > backend folder
+app.js file
+
+const express = require('express');
+const app = express();
+
+app.use((req, res, next) => {
+	res.send("Hello");
+});
+
+module.exports = app;
+
+
+MORE COMPLEXITY
+
+const normalizePort = val => {
+	var port = parseInt(val, 10);
+
+	if (isNaN(port)) {
+		return val;
+	}
+	if (port >= 0){
+		return val;
+	}
+	return false;
+}
+
+
+const onError = error => {
+	if(error.syscall !== "listen"){
+		throw error;
+	}
+	etc.
+}
+
+server.on("error", onerror);
+
+const debug = require("debug")("node-angular");
+
+PACKAGE FOR AUTORESTART
+
+npm install --save-dev nodemon
+
+
+ADD PATH 
+
+app.use('/posts', (req, res, next) => {
+	const posts = [
+		{
+			id: 'string',
+			title: 'Server',
+			content: 'Content'
+		},
+		{
+			id: 'string',
+			title: 'Server',
+			content: 'Content'
+		}
+	]
+	res.status(200).json({
+		message: "Posts from api",
+		posts: posts,
+	});
+})
+
+
+
+ANGULAR CONNECTION
+import HttpClientModule from "...
+to imorts array
+
+import HttpClient from common
+inject with constructor(private http: HttpClient){
+}
+
+getPosts(){
+	this.http.get<{message: string, posts: Post[]}>('http://localhost:3000/posts')
+	.subscribe((body) => {
+		this.posts = body.posts;
+		this.postsUpdates.next([...this.posts]);
+	})
+}
+
+
+
+NO ACCESS CONTROL ERROR CORS Cross-Origin Resource Sharing
+If on different hosts 
+Disable default mechanism
+app.jsadd additional middleware
+
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin", "*");
+	res.setHeader('Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.setHeader('Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, PUT, OPTIONS");
+	next();
+})
+
+npm install --save body-parser *
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+app.post(
+const post = req.body;
+res.status(201).json({
+	message: 'post succesful'
+});
+)
+app.get()
+
+this.http.post<{message: string}>('url', post)
+.subscribe((responseData) => {
+	console.log(responseData.message);
+})
+
