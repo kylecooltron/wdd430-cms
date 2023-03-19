@@ -22,7 +22,7 @@ export class MessageItemComponent {
     this.messageSender = contact?.name ?? "loading...";
     this.subscription = this.contactService.contactListChangedEvent.subscribe(() => {
       contact = this.contactService.getContact(this.message.sender);
-      this.messageSender = contact?.name ?? "loading...";
+      this.messageSender = contact?.name ?? this.message.sender;
     })
     if (contact) {
       this.messageSender = contact.name;
